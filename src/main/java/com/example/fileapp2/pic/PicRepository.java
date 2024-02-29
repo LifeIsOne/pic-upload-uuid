@@ -13,7 +13,7 @@ public class PicRepository {
 
     @Transactional
     public void insert(String title, String imgFilename){
-        Query query = em.createNativeQuery("insert into pic_tb(title, img_filename) values(?,?)");
+        Query query = em.createNativeQuery("INSERT INTO pic_tb(title, img_filename) VALUES (?,?)");
         query.setParameter(1, title);
         query.setParameter(2, imgFilename);
 
@@ -21,7 +21,7 @@ public class PicRepository {
     }
 
     public Pic findById(int id){
-        Query query = em.createNativeQuery("select * from pic_tb where id = ?", Pic.class);
+        Query query = em.createNativeQuery("SELECT * FROM pic_tb WHERE id = ?", Pic.class);
         query.setParameter(1, id);
 
         return (Pic) query.getSingleResult();

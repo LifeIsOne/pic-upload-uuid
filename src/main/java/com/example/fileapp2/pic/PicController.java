@@ -1,5 +1,6 @@
 package com.example.fileapp2.pic;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class PicController {
         String title = requestDTO.getTitle();
         MultipartFile imgFile = requestDTO.getImgFile();
 
-        // 2. 파일저장 위치 설정해서 파일을 저장
+        // 2. 파일저장 위치 설정해서 파일을 저장 (UUID 붙여서 롤링)
         String imgFilename = UUID.randomUUID()+"_"+imgFile.getOriginalFilename();
         Path imgPath = Paths.get("./upload/"+imgFilename);
         try {
@@ -36,6 +37,9 @@ public class PicController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
+
 
         return "redirect:/";
     }
@@ -51,7 +55,9 @@ public class PicController {
     }
 
     @GetMapping("/uploadCheck")
-    public String uploadCheck(){
+    public String uploadCheck(HttpServletRequest request){
+        Pic pic = picRepository.findById(1);
+        request.setAttribute("pic", pic);
         return "uploadCheck";
     }
 }
